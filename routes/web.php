@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Bitacora\Registros;
 use App\Http\Controllers\Registro\Registrar;
 use App\Http\Controllers\Vigilantes\Registrar as VigilantesRegistrar;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,7 @@ Route::post('/registrarRonda' , [Registrar::class , 'store']);
 Route::middleware(['auth'])->group(function()
 {
    Route::post('/registrarVigilante' , [VigilantesRegistrar::class , 'store']);
+
+   Route::get('/bitacora' , [Registros::class , 'index'])->name('bitacora.registros');
 
 });
