@@ -11,7 +11,6 @@ Route::get('/', function () {
 
 Auth::routes(
     [
-        'register' => false,
         'reset' => false,
     ]
 
