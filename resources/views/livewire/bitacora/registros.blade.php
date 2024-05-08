@@ -53,6 +53,10 @@
                                       </div>
                                 </div>
                             </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button wire:click='exportDataExcel' class="btn btn-outline-success"><i class="fas fa-file-excel"></i></button>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -101,7 +105,7 @@
             </div>
 
             <div class="card-footer">
-                {{ $rondas->links() }}
+                {{ $rondas->links(data: ['scrollTo' => false]) }}
             </div>
         </div>
 
