@@ -42,7 +42,7 @@
                                 <a class="nav-link" href="{{ route('bitacora.registros') }}">Bitácora de registros</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Reportes</a>
+                                <a class="nav-link" href="{{ route('reportes.index') }}">Reportes</a>
                             </li>
                         </ul>
                     @endauth

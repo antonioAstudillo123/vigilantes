@@ -23,15 +23,14 @@ class RegistrosRondines implements FromCollection,WithHeadings
 
     public function headings(): array
     {
-        // Define los encabezados que deseas agregar
+        // Define los encabezados que tendrà el archivo excel que genera el reporte
         return [
             'Id',
-            'Número_empleado',
             'Nombre_completo',
+            'Número_empleado',
             'Hora',
             'Dia',
             'Plantel'
-            // Agrega más encabezados según sea necesario
         ];
     }
 }
