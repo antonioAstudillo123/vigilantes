@@ -17,6 +17,8 @@ return new class extends Migration
             $table->time('hora');
             $table->date('dia');
             $table->timestamps();
+
+            $table->foreign('idVigilante')->references('id')->on('vigilantes');
         });
     }
 
