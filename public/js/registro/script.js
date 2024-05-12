@@ -37,10 +37,14 @@ function registrarRonda(){
 
         respuesta.then(function(response){
             mensajeAlert('Buen trabajo!' , response , 'success');
-            //Limpiamos el input
             document.getElementById('numEmpleado').value = '';
         }).catch(function(error){
-            mensajeAlert('Error' , error.responseText , 'error');
+            if( typeof error.responseJSON !== 'undefined')
+            {
+                mensajeAlert('Error' , error.responseJSON.message , 'error');
+            }else{
+                mensajeAlert('Error' , error.responseText , 'error');
+            }
         })
     }
 }
