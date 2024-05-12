@@ -57,9 +57,10 @@ class RegistrarRondaService
             }
 
             $this->repositorioRonda->registrarRonda($idVigilante[0]->id);
+
         }catch(Exception $e)
         {
-            return response('Error en el servidor: 001' . $e , 500);
+            return response('Error en el servidor: 001' , 500);
         }
 
         return response('¡Ronda registrada correctamente!' , 200);
