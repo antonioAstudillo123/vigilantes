@@ -16,7 +16,7 @@ class FechasHelper{
 
 
         // Comprueba si han pasado al menos 15 minutos
-        if ($diferenciaMinutos >= 1) {
+        if ($diferenciaMinutos >= 15) {
             return true;
         }
 

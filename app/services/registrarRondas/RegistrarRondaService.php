@@ -3,9 +3,9 @@
 namespace App\services\registrarRondas;
 use Exception;
 use App\helpers\FechasHelper;
-use Illuminate\Support\Carbon;
 use App\repositories\vigilantes\VigilantesRepository;
-use App\repositories\registrarRonda\RegistrarRondaRepository;
+use App\repositories\registrarRonda\RegistrarRondaInterface;
+
 
 class RegistrarRondaService
 {
@@ -13,7 +13,7 @@ class RegistrarRondaService
     private $repositorioRonda;
 
 
-    public function __construct(RegistrarRondaRepository $rondaRepository , VigilantesRepository $vigilanteRepository ){
+    public function __construct(RegistrarRondaInterface $rondaRepository , VigilantesRepository $vigilanteRepository ){
         $this->repositorioVigilante = $vigilanteRepository;
         $this->repositorioRonda = $rondaRepository;
     }
@@ -28,8 +28,6 @@ class RegistrarRondaService
      */
     public function registrar($data)
     {
-
-
 
         if(!$this->repositorioVigilante->existsVigilante($data['numEmpleado'])){
             return response('El número de empleado no existe!' , 422);
@@ -51,16 +49,18 @@ class RegistrarRondaService
 
             $ultimaHora = $this->repositorioRonda->ultimaHoraRonda($idVigilante[0]->id);
 
-
-            if(!FechasHelper::diferenciaEnMinutos($ultimaHora->hora)){
-                return response('Aun no transcurre el tiempo limite para realizar otra solicitud de registro de ronda.' , 422);
+            if($ultimaHora !== null)
+            {
+                if(!FechasHelper::diferenciaEnMinutos($ultimaHora->hora)){
+                    return response('Aún no transcurre el tiempo límite para realizar otra solicitud de registro de ronda.' , 422);
+                }
             }
 
-            $this->repositorioRonda->registrarRonda($idVigilante[0]->id);
+            $this->repositorioRonda->registrar($idVigilante[0]->id);
 
         }catch(Exception $e)
         {
-            return response('Error en el servidor: 001' , 500);
+            return response('Error en el servidor: 001' . $e, 500);
         }
 
         return response('¡Ronda registrada correctamente!' , 200);

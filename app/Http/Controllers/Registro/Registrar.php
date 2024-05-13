@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Registro;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegistrarRonda\ValidarRegistro;
 use App\services\registrarRondas\RegistrarRondaService as RondaService;

@@ -4,8 +4,10 @@ namespace App\repositories\registrarRonda;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\repositories\registrarRonda\RegistrarRondaInterface;
 
-class RegistrarRondaRepository{
+class RegistrarRondaRepository implements RegistrarRondaInterface
+{
 
     private $tabla;
 
@@ -21,7 +23,7 @@ class RegistrarRondaRepository{
      *
      * @return void
      */
-    public function registrarRonda($idVigilante)
+    public function registrar($idVigilante)
     {
         //Establecemos un datatime, para no repetir el Carbon::now() en todos los campos.
         $datatime = Carbon::now();
