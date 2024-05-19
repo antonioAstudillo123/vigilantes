@@ -45,14 +45,28 @@ class RegistrarRondaRepository implements RegistrarRondaInterface
 
     public function ultimaHoraRonda($idVigilante)
     {
-        //return DB::table($this->tabla)->select('hora')->where('idVigilante' , $idVigilante)->orderBy('hora','desc')->first();
-
         return DB::table($this->tabla)
             ->select('hora')
             ->where('idVigilante', $idVigilante)
             ->whereDate('dia', now())
             ->orderBy('hora', 'desc')
             ->first();
+    }
+
+
+
+    /**
+     * Este metodo lo usamos para reutilizar la consulta de obtener la informacion de las rondas del vigilante
+     * En el servicio aplicaremos la logica de filtrado de acuerdo a los argumentos o filtros que se apliquen
+     * en los respectivos select's
+     *
+     * @return void
+     */
+    public function getInfoRonda(){
+        return DB::table('rondas_vigilantes as rv')
+                ->join('vigilantes as v', 'v.id', '=', 'rv.idVigilante')
+                ->join('planteles as p', 'p.id', '=', 'v.idPlantel')
+                ->select('rv.id as idRonda', 'v.nombreCompleto', 'v.numeroEmpleado', 'rv.hora', 'rv.dia', 'p.nombre');
     }
 
 }

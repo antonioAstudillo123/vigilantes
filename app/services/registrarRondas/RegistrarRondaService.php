@@ -66,4 +66,37 @@ class RegistrarRondaService
         return response('¡Ronda registrada correctamente!' , 200);
 
     }
+
+
+
+    /**
+     * Obtenemos la informacion de las rondas de los vigilantes, para poder llenar la tabla en el modulo de bitacoras
+     *
+     * @return void
+     */
+    public function getRondasVigilantes(string $plantel = '', string $vigilante = '' , string $fechaInicio = '' , string $fechaFinal = '' ){
+
+        $query = $this->repositorioRonda->getInfoRonda();
+
+        if($plantel !== '' || $vigilante !== '')
+        {
+            if($fechaInicio !== '' && $fechaFinal !== '')
+            {
+                return $query->where(function ($query) use ($plantel , $vigilante){
+                    $query->where('p.id', $plantel)
+                        ->orWhere('v.id', $vigilante);
+                })
+                ->whereBetween('rv.dia', [$fechaInicio, $fechaFinal]);
+            }else{
+               return $query->where(function ($query) use ($plantel , $vigilante){
+                    $query->where('p.id', $plantel)
+                        ->orWhere('v.id', $vigilante);
+                });
+            }
+        }
+        else{
+            return $query->orderBy('rv.dia' , 'desc');
+        }
+
+    }
 }

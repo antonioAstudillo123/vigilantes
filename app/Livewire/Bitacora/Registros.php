@@ -7,6 +7,9 @@ use Livewire\WithPagination;
 use App\Exports\RegistrosRondines;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\services\planteles\PlantelesService;
+use App\services\vigilantes\VigilantesService;
+use App\services\registrarRondas\RegistrarRondaService;
 
 class Registros extends Component
 {
@@ -17,106 +20,60 @@ class Registros extends Component
     public $vigilante = '';
     public $fechaInicio = '';
     public $fechaFinal  = '';
+    private $vigilanteServicio;
+    private $plantelesServicio;
+    private $rondaServicio;
 
 
-    public function mount()
-    {
-        $this->planteles = DB::table('planteles')->orderBy('nombre' , 'asc')->get();
-        $this->vigilantes = DB::table('vigilantes')->orderBy('nombreCompleto' , 'asc')->get();
+    /*
+        UTILIZAMOS BOOT PARA QUE MI INSTANCIA DE MI SERVICIO PERSISTA EN CADA SOLICITUD A MI COMPONENTE
+     */
+    public function boot(RegistrarRondaService $rondaServicio){
+        $this->rondaServicio = $rondaServicio;
 
     }
 
+    /*
+        INICIALIZAMOS NUESTROS ATRIBUTOS QUE USAMOS EN LOS SELECT'S
+    */
+    public function mount(VigilantesService $vigilanteServicio , PlantelesService $plantelesServicio  )
+    {
+        $this->vigilanteServicio = $vigilanteServicio;
+        $this->plantelesServicio = $plantelesServicio;
+
+        $this->planteles = $this->plantelesServicio->getNames();
+        $this->vigilantes = $this->vigilanteServicio->getNames();
+
+    }
+
+    /*
+        RENDERIZAMOS NUESTRO COMPONENTE ENVIANDOLE LAS RONDAS
+    */
     public function render()
     {
-        if($this->plantel !== '' || $this->vigilante !== '')
-        {
 
-
-            if($this->fechaInicio !== '' && $this->fechaFinal !== '')
-            {
-                $rondas = DB::table('rondas_vigilantes as rv')
-                ->join('vigilantes as v', 'v.id', '=', 'rv.idVigilante')
-                ->join('planteles as p', 'p.id', '=', 'v.idPlantel')
-                ->select('rv.id as idRonda', 'v.nombreCompleto', 'v.numeroEmpleado', 'rv.hora', 'rv.dia', 'p.nombre')
-                ->where(function ($query){
-                    $query->where('p.id', $this->plantel)
-                        ->orWhere('v.id', $this->vigilante);
-                })
-                ->whereBetween('rv.dia', [$this->fechaInicio, $this->fechaFinal])
-                ->paginate(10);
-            }else{
-                $rondas = DB::table('rondas_vigilantes as rv')
-                ->join('vigilantes as v', 'v.id', '=', 'rv.idVigilante')
-                ->join('planteles as p', 'p.id', '=', 'v.idPlantel')
-                ->select('rv.id as idRonda', 'v.nombreCompleto', 'v.numeroEmpleado', 'rv.hora', 'rv.dia', 'p.nombre')
-                ->where(function ($query){
-                    $query->where('p.id', $this->plantel)
-                        ->orWhere('v.id', $this->vigilante);
-                })
-                ->paginate(10);
-            }
-
-
-        }
-        else{
-            $rondas = DB::table('rondas_vigilantes as rv')
-            ->join('vigilantes as v' , 'v.id' , '=' , 'rv.idVigilante')
-            ->join('planteles as p' , 'p.id' , '='  ,'v.idPlantel')
-            ->select('rv.id as idRonda' , 'v.nombreCompleto' , 'v.numeroEmpleado' , 'rv.hora' , 'rv.dia' , 'p.nombre')
-            ->orderBy('rv.dia' , 'desc')
-            ->paginate(10);
-        }
-
+        $rondas = $this->rondaServicio->getRondasVigilantes( $this->plantel , $this->vigilante , $this->fechaInicio , $this->fechaFinal  )->paginate(10);
 
         return view('livewire.bitacora.registros' ,
         ['rondas' => $rondas , 'planteles' => $this->planteles , 'vigilantes' => $this->vigilantes] );
     }
 
 
+    /*
+        CADA VEZ QUE SE PRESIONA SOBRE EL BOTON DEL EXCEL SE MANDA A LLAMAR A ESTE METODO EL CUAL RETORNA UNA INSTANCIA
+        DE LA CLASE EXCEL. DENTRO LLAMAMOS A NUESTRO SERVICIO DE RONDAS VIGILANTES PARA PODER UTILIZAR LA QUERY DEPENDIENDO
+        DE LOS FILTROS. POR MEDIO DE UN ENCADENAMIENTO DE METODOS, USAMOS GET PARA OBTENER TODOS LOS REGISTROS DE ESA QUERY
+    */
     public function exportDataExcel(){
 
-        if($this->plantel !== '' || $this->vigilante !== '')
-        {
-
-
-            if($this->fechaInicio !== '' && $this->fechaFinal !== '')
-            {
-                $rondas = DB::table('rondas_vigilantes as rv')
-                ->join('vigilantes as v', 'v.id', '=', 'rv.idVigilante')
-                ->join('planteles as p', 'p.id', '=', 'v.idPlantel')
-                ->select('rv.id as idRonda', 'v.nombreCompleto', 'v.numeroEmpleado', 'rv.hora', 'rv.dia', 'p.nombre')
-                ->where(function ($query){
-                    $query->where('p.id', $this->plantel)
-                        ->orWhere('v.id', $this->vigilante);
-                })
-                ->whereBetween('rv.dia', [$this->fechaInicio, $this->fechaFinal])
-                ->get();
-            }else{
-                $rondas = DB::table('rondas_vigilantes as rv')
-                ->join('vigilantes as v', 'v.id', '=', 'rv.idVigilante')
-                ->join('planteles as p', 'p.id', '=', 'v.idPlantel')
-                ->select('rv.id as idRonda', 'v.nombreCompleto', 'v.numeroEmpleado', 'rv.hora', 'rv.dia', 'p.nombre')
-                ->where(function ($query){
-                    $query->where('p.id', $this->plantel)
-                        ->orWhere('v.id', $this->vigilante);
-                })
-                ->get();
-            }
-
-
-        }
-        else{
-            $rondas = DB::table('rondas_vigilantes as rv')
-            ->join('vigilantes as v' , 'v.id' , '=' , 'rv.idVigilante')
-            ->join('planteles as p' , 'p.id' , '='  ,'v.idPlantel')
-            ->select('rv.id as idRonda' , 'v.nombreCompleto' , 'v.numeroEmpleado' , 'rv.hora' , 'rv.dia' , 'p.nombre')
-            ->orderBy('p.nombre' , 'asc')
-            ->get();
-        }
-
+        $rondas = $this->rondaServicio->getRondasVigilantes( $this->plantel , $this->vigilante , $this->fechaInicio , $this->fechaFinal  )->get();
         return Excel::download(new RegistrosRondines($rondas), 'registrosRondines.xlsx');
     }
 
+    /*
+        CADA VEZ QUE SUCEDE UN EVENTO CHANGE DENTRO DEL SELECT PLANTELES, SE MANDA A LLAMAR ESTA FUNCIÓN LA CUAL RESETEA EL PAGINADOR
+        Y RENDERIZA NUEVAMENTE EL COMPONENTE
+    */
     public function obtenerPlantel()
     {
         $this->resetPage();
@@ -124,19 +81,22 @@ class Registros extends Component
     }
 
 
+    /*
+        CADA VEZ QUE SUCEDE UN EVENTO CHANGE DENTRO DEL SELECT DE VIGILANTES, SE MANDA A LLAMAR ESTA FUNCIÓN LA CUAL RESETEA EL PAGINADOR
+        Y RENDERIZA NUEVAMENTE EL COMPONENTE
+    */
     public function obtenerVigilante()
     {
         $this->resetPage();
         $this->render();
     }
 
+
+    //EN ESTE CASO, CADA VEZ QUE SUCEDE UN CAMBIO CON LAS FECHAS, SE MANDA A LLAMAR ESTE METODO
     public function obtenerFechas()
     {
-        if($this->fechaInicio !== '' && $this->fechaFinal !== '')
-        {
-            $this->resetPage();
-            $this->render();
-        }
+        $this->resetPage();
+        $this->render();
     }
 
 }

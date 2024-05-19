@@ -14,10 +14,6 @@ class FechasHelper{
 
         $diferenciaMinutos = $horaFin->diffInMinutes($horaInicio);
 
-
-        return $diferenciaMinutos;
-
-
         // Comprueba si han pasado al menos 15 minutos
         if ($diferenciaMinutos >= 15) {
             return true;

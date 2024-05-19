@@ -36,4 +36,16 @@ class VigilantesRepository{
         return DB::table($this->tabla)->where('numeroEmpleado',$numeroEmpleado)->exists();
     }
 
+
+
+
+    /**
+     * Obtenemos todos los nombres de los vigilantes, para usarlos en algún proceso que se requiera
+     *
+     * @return void
+     */
+    public function getNames(){
+        return  DB::table($this->tabla)->orderBy('nombreCompleto' , 'asc')->get();
+    }
+
 }

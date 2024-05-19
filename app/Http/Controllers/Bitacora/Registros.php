@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Bitacora;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 
 class Registros extends Controller
 {
