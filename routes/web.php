@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function()
 
    Route::post('/reportes/graficaBarras' , [Reporte::class , 'reportePromedioPlantel']);
 
-   Route::post('/reportes/indicador' , [Reporte::class , 'reportePromedioPlantel']);
+   Route::post('/reportes/indicador' , [Reporte::class , 'reportePromedioVecesMes']);
 
 
 

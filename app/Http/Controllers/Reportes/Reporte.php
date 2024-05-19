@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reportes;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -66,11 +67,12 @@ class Reporte extends Controller
         $resultados = DB::table('rondas_vigilantes AS rv')
             ->join('vigilantes AS v', 'v.id', '=', 'rv.idVigilante')
             ->join('planteles AS p', 'p.id', '=', 'v.idPlantel')
-            ->whereMonth('rv.dia', '=', now()->month)
-            ->whereYear('rv.dia', '=', now()->year)
+            ->whereMonth('rv.dia', '=', Carbon::now())
+            ->whereYear('rv.dia', '=', Carbon::now())
             ->select('p.nombre', DB::raw('COUNT(p.nombre) AS veces'))
             ->groupBy('p.nombre')
             ->get();
+
 
         return response()->json(['data' => $resultados] , 200);
     }
