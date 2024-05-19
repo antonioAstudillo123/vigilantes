@@ -45,7 +45,14 @@ class RegistrarRondaRepository implements RegistrarRondaInterface
 
     public function ultimaHoraRonda($idVigilante)
     {
-        return DB::table($this->tabla)->select('hora')->where('idVigilante' , $idVigilante)->orderBy('hora','desc')->first();
+        //return DB::table($this->tabla)->select('hora')->where('idVigilante' , $idVigilante)->orderBy('hora','desc')->first();
+
+        return DB::table($this->tabla)
+            ->select('hora')
+            ->where('idVigilante', $idVigilante)
+            ->whereDate('dia', now())
+            ->orderBy('hora', 'desc')
+            ->first();
     }
 
 }
