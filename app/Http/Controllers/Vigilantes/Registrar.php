@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Controlador usado para registrar vigilantes en el sistema
+ */
+
 namespace App\Http\Controllers\Vigilantes;
 
 use Exception;
