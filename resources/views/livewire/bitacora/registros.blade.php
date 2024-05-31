@@ -55,7 +55,14 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <button wire:click='exportDataExcel' class="btn btn-outline-success"><i class="fas fa-file-excel"></i></button>
+                                <div class="mx-2">
+                                    <button wire:click='exportDataExcel' class="btn btn-outline-success"><i class="fas fa-file-excel"></i></button>
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-light" wire:click="refresh"><i class="fas fa-sync-alt"></i></button>
+                                </div>
+
+
                             </div>
                         </div>
                       </div>

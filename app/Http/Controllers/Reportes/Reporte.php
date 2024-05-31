@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Este controlador lo usamos para generar los reportes sobre las
+ * metricas de cada vigilante
+ */
+
+
 namespace App\Http\Controllers\Reportes;
 
 use Illuminate\Http\Request;

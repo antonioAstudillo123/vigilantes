@@ -1,5 +1,12 @@
 <?php
 
+
+/**
+ * Por medio de este controlador debemos registrar la ronda de vigilancia
+ * que realiza un guardía de seguridad dentro de un plantel.
+ */
+
+
 namespace App\Http\Controllers\Registro;
 
 use App\Http\Controllers\Controller;

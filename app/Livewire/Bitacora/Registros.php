@@ -5,7 +5,6 @@ namespace App\Livewire\Bitacora;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Exports\RegistrosRondines;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\services\planteles\PlantelesService;
 use App\services\vigilantes\VigilantesService;
@@ -99,4 +98,17 @@ class Registros extends Component
         $this->render();
     }
 
+
+
+    //REFRESCAMOS LA PAGINA
+    public function refresh(){
+        $this->plantel = '';
+        $this->vigilante = '';
+        $this->fechaInicio = '';
+        $this->fechaFinal = '';
+
+        $this->render();
+    }
+
 }
+
