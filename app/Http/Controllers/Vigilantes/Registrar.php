@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vigilantes;
 
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class Registrar extends Controller
 
             DB::table('vigilantes')->insert([
                'numeroEmpleado' => $data['numEmpleado'],
-               'nombreCompleto' => $data['nombreVigilante'],
+               'nombreCompleto' => Str::title($data['nombreVigilante']),
                'idPlantel' => $data['plantel'],
                'created_at' => Carbon::now()
             ]);

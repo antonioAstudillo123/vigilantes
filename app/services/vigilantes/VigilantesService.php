@@ -14,4 +14,9 @@ class VigilantesService{
     public function getNames(){
         return $this->repositorio->getNames();
     }
+
+
+    public function getVigilantes(){
+        return $this->repositorio->getVigilantes();
+    }
 }

@@ -35,9 +35,18 @@
                     @auth
                               <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('home') }}">Registrar vigilante</a>
-                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Vigilantes
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" href="{{ route('home') }}">Registrar vigilante</a>
+                                    </li>
+                                  <li><a class="dropdown-item" href="/vigilantes/mostrar">Mostrar vigilantes</a></li>
+                                </ul>
+                              </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('bitacora.registros') }}">Bitácora de registros</a>
                             </li>

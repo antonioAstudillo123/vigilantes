@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Reportes\Reporte;
 use App\Http\Controllers\Bitacora\Registros;
 use App\Http\Controllers\Registro\Registrar;
+use App\Http\Controllers\Vigilantes\MostrarVigilante;
 use App\Http\Controllers\Vigilantes\Registrar as VigilantesRegistrar;
 
 
@@ -35,6 +36,9 @@ Route::middleware(['auth'])->group(function()
    Route::post('/reportes/graficaBarras' , [Reporte::class , 'reportePromedioPlantel']);
 
    Route::post('/reportes/indicador' , [Reporte::class , 'reportePromedioVecesMes']);
+
+
+   Route::get('/vigilantes/mostrar' ,[MostrarVigilante::class , 'index'] );
 
 
 

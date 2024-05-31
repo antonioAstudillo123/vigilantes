@@ -48,4 +48,16 @@ class VigilantesRepository{
         return  DB::table($this->tabla)->orderBy('nombreCompleto' , 'asc')->get();
     }
 
+
+
+
+    /*
+        Obtenemos todos los vigilantes del sistema
+    */
+
+    public function getVigilantes(){
+        return DB::table($this->tabla)->join('planteles' , 'vigilantes.idPlantel' , '=' , 'planteles.id')
+        ->select('vigilantes.numeroEmpleado' , 'vigilantes.nombreCompleto' , 'planteles.nombre');
+    }
+
 }

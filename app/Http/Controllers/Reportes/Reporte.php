@@ -71,6 +71,7 @@ class Reporte extends Controller
             ->whereYear('rv.dia', '=', Carbon::now())
             ->select('p.nombre', DB::raw('COUNT(p.nombre) AS veces'))
             ->groupBy('p.nombre')
+            ->orderBy('p.nombre')
             ->get();
 
 
