@@ -36,7 +36,7 @@
                                 <td>
                                     <a href="{{ route('vigilantes.edit', ['id' => $vigilante->id ] ) }}" class="btn btn-warning"><i class="fa-solid fa-user-pen"></i></a>
 
-                                    <button wire:click="delete({{ $vigilante->id  }})"  wire:confirm='¿Estás seguro de eliminar a este vigilante?' class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    <button wire:click="delete({{ $vigilante->id  }})"  wire:confirm='¿Estás seguro de que deseas eliminar a este vigilante? Esta acción eliminará toda la información relacionada con él.' class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach

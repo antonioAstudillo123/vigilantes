@@ -7,6 +7,7 @@ use Exception;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Illuminate\Database\QueryException;
+use App\Exceptions\NumeroEmpleadoUnique;
 use App\services\planteles\PlantelesService;
 use App\services\vigilantes\VigilantesService;
 
@@ -50,19 +51,20 @@ class EditarVigilante extends Component
 
             session()->flash('mensajeExito', '¡Vigilante actualizado con éxito!');
 
-            $this->redirectRoute('vigilantes.mostrar');
-
+        }
+        catch(NumeroEmpleadoUnique $e){
+            session()->flash('mensajeError', $e->getMessage());
         }
         catch(QueryException $e)
         {
             session()->flash('mensajeError', '¡Tuvimos problemas al actualizar al vigilante!');
-            $this->redirectRoute('vigilantes.mostrar');
 
         }
         catch(Exception $e)
         {
             session()->flash('mensajeError', '¡Problemas en el servidor, contacta a soporte!');
-            $this->redirectRoute('vigilantes.mostrar');
         }
+
+        $this->redirectRoute('vigilantes.mostrar');
     }
 }

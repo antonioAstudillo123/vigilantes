@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('dia');
             $table->timestamps();
 
-            $table->foreign('idVigilante')->references('id')->on('vigilantes');
+            $table->foreign('idVigilante')->references('id')->on('vigilantes')->onUpdate('cascade')->onDelete('cascade');;
         });
     }
 

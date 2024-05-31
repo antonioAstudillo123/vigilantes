@@ -89,4 +89,14 @@ class VigilantesRepository{
         return DB::table($this->tabla)->where('id', '=', $id)->delete();
       }
 
+
+      /*
+         Comprobamos que este numero de empleado no le pertenezca a otro empleado
+         Retornamos true si le pertenece a otro, false caso contrario
+      */
+      public function isUniqueEmpleado($numeroEmpleado , $id)
+      {
+        return DB::table($this->tabla)->where('numeroEmpleado', $numeroEmpleado)->where('id' , '<>' , $id)->exists() ? true : false;
+      }
+
 }

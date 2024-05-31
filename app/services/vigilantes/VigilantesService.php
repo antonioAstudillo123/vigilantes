@@ -3,6 +3,7 @@
 namespace App\services\vigilantes;
 
 use Exception;
+use App\Exceptions\NumeroEmpleadoUnique;
 use App\repositories\vigilantes\VigilantesRepository;
 
 class VigilantesService{
@@ -29,6 +30,13 @@ class VigilantesService{
 
     public function updateVigilante($id , $numeroEmpleado , $nombre , $plantel)
     {
+
+        //Antes de actualizar debemos comprobar que el número de empleado sea unico
+
+        if($this->repositorio->isUniqueEmpleado($numeroEmpleado , $id)){
+            throw new NumeroEmpleadoUnique("No actualizamos el registro, el número de empleado ingresado le pertenece a otro usuario.");
+        }
+
         return $this->repositorio->updateVigilante($id , $numeroEmpleado , $nombre , $plantel);
     }
 
