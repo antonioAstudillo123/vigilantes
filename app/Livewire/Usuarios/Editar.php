@@ -51,13 +51,19 @@ class Editar extends Component
     {
         $this->validate();
 
-        try{
+        try
+        {
+            if($this->servicio->updateUser($this->id , $this->nombre , $this->correo , $this->password))
+            {
+                session()->flash('mensajeExito', '¡Datos actualizados correctamente!');
 
-            $this->servicio->updateUser($this->id , $this->nombre , $this->correo , $this->password);
-            session()->flash('mensajeExito', '¡Datos actualizados correctamente!');
+            }else{
+                session()->flash('mensajeError', '¡Usted no puede actualizar la información de otro usuario!');
+            }
+
         }catch(Exception $e)
         {
-            session()->flash('mensajeError', '¡No pudimos actualizar la información, error en el servidor. Contacta al equipo de soporte!' . $e);
+            session()->flash('mensajeError', '¡No pudimos actualizar la información, error en el servidor. Contacta al equipo de soporte!');
         }
 
         $this->redirectRoute('usuarios.index');

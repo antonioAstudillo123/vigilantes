@@ -36,6 +36,12 @@ class UsuarioService{
 
     public function updateUser($id , $name , $email , $password)
     {
+        //Comprobamos si el usuario autenticado corresponde al usuario al que se le quiere editar la información
+        if(auth()->id() !== $id)
+        {
+            return false;
+        }
+
         return $this->repositorio->updateUser($id , $name , $email , $password);
     }
 

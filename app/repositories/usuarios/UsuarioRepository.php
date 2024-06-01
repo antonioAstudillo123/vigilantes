@@ -47,7 +47,7 @@ class UsuarioRepository{
             $user->password = Hash::make($password);
         }
 
-        $user->save();
+       return $user->save();
     }
 }
 

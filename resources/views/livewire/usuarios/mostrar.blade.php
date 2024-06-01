@@ -33,7 +33,7 @@
                                 <td>
                                     <button wire:click="resetPassword({{ $usuario->id }})"  class="btn btn-info"><i class="fa-solid fa-unlock-keyhole"></i></button>
                                     <a href="{{ route('usuarios.edit' , ['id' => $usuario->id]) }}" class="btn btn-warning"><i class="fa-solid fa-user-pen"></i></a>
-                                    <button wire:click="deleteUser({{ $usuario->id }})" wire:confirm='¿Estás seguro de que deseas eliminar a este vigilante? Esta acción eliminará toda la información relacionada con él.'  class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    <button wire:click="deleteUser({{ $usuario->id }})" wire:confirm='¿Estás seguro de que deseas eliminar a este usuario? Esta acción eliminará toda la información relacionada con él.'  class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach
