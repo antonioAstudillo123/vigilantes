@@ -77,7 +77,8 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
 
-                                    <a class="dropdown-item" href="{{ route('register') }}">Registrar</a>
+                                    <a class="dropdown-item" href="{{ route('register') }}">Registrar usuario</a>
+                                    <a class="dropdown-item" href="{{ route('usuarios.index') }}">Gestionar usuarios</a>
 
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"

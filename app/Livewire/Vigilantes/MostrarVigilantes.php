@@ -3,22 +3,22 @@
 namespace App\Livewire\Vigilantes;
 
 use Livewire\Component;
-use App\services\vigilantes\VigilantesService;
+use Livewire\WithPagination;
 use Illuminate\Database\QueryException;
+use App\services\vigilantes\VigilantesService;
 
 class MostrarVigilantes extends Component
 {
+    use WithPagination;
     private $servicio;
 
     public function mount(VigilantesService $vigilante){
         $this->servicio = $vigilante;
-
     }
 
-
-    public function render()
+    public function render(VigilantesService $vigilante)
     {
-        $vigilantes = $this->servicio->getVigilantes()->paginate(10);
+        $vigilantes = $vigilante->getVigilantes()->paginate(10);
 
         return view('livewire.vigilantes.mostrar-vigilantes' , ['vigilantes' => $vigilantes]);
     }

@@ -43,10 +43,10 @@ class EditarVigilante extends Component
 
     public function updateVigilante(VigilantesService $vigilanteService)
     {
+        $this->validate();
+
         try
         {
-            $this->validate();
-
             $vigilanteService->updateVigilante($this->id , $this->numeroEmpleado , $this->nombre , $this->plantel);
 
             session()->flash('mensajeExito', '¡Vigilante actualizado con éxito!');
